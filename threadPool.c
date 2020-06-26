@@ -265,7 +265,7 @@ static void runnerFunc(ThreadPool *thread_pool) {
 int tpInsertTask(ThreadPool *threadPool, void (*computeFunc)(void *), void *param) {
   //need to delete threadPool, cant push new task.
   if (threadPool->stopFlag)
-    return 0;
+    return -1;
   //allocate space for task
   Task *newFunc = (Task *) malloc(sizeof(Task));
   if (newFunc == NULL) {
@@ -283,7 +283,7 @@ int tpInsertTask(ThreadPool *threadPool, void (*computeFunc)(void *), void *para
   }
   if (threadPool->stopFlag == 1) {
     free(newFunc);
-    return 0;
+    return -1;
   }
   osEnqueue(threadPool->tasks, newFunc);
   threadPool->isTasksPushedToQue = 1;
@@ -298,6 +298,7 @@ int tpInsertTask(ThreadPool *threadPool, void (*computeFunc)(void *), void *para
     //free(newFunc);
     deleteAndExit(threadPool);
   }
+  return 0;
 }
 void deleteAndExit(ThreadPool *thread_pool) {
   if (pthread_mutex_lock(&thread_pool->mutex_) != 0) {

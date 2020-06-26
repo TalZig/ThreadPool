@@ -36,15 +36,15 @@ void test_thread_pool_sanity()
     tpInsertTask(tp,bye,NULL);
   }
   //sleep(2);
-  tpDestroy(tp,0);
+  tpDestroy(tp,1);
 }
 
 
 int main()
 {
-  //test_thread_pool_sanity();
-  ThreadPool* tp = tpCreate(10);
-  tpDestroy(tp,1);
+  test_thread_pool_sanity();
+  //ThreadPool* tp = tpCreate(10);
+  //tpDestroy(tp,1);
 
   return 0;
 }
